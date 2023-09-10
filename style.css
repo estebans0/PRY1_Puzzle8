@@ -17,7 +17,6 @@ html, body { /* Define los parámetros del fondo */
         line-height: 87px; }
 
 .contenedor_imagenes {
-    margin-right: auto;
     float: left;
     background: #9c9c9c;
     width: 155px;
@@ -38,7 +37,7 @@ html, body { /* Define los parámetros del fondo */
 
 .tablero_juego {
     margin-top: 20px;
-    margin-left: 500px;
+    margin-left: 515px;
     background: #ed6666;
     width: 500px;
     height: 500px;
@@ -57,13 +56,13 @@ html, body { /* Define los parámetros del fondo */
         display: inline-block; }
 .check_numeros {
     margin-top: 10px;
-    margin-left: 350px; }
+    margin-left: 360px; }
     .check_numeros:hover {
         cursor: pointer; } 
 
 .contenedor_botones {
     margin-top: 20px;
-    margin-left: 500px;
+    margin-left: 510px;
     width: 500px;
     height: 60px;
     text-align: center;
