@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     botonTamano.addEventListener("click", () =>{
         limpiarTablero();
         tamano = document.getElementById("tamano").value;
-        decremento = 0.315 * (tamano-3)
+        decremento = 0.3156 * (tamano-3)
         mostrarTablero();
     });
 });
