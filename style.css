@@ -38,39 +38,63 @@ html, body { /* Define los parámetros del fondo */
 .contenedor_juego {
     margin-top: 20px;
     width: 100%;
-    height: 500px;
+    height: 635px;
 }
-.contenedor_tablero {
+.eleccion_tamano {
     margin: auto;
-    background: #ed6666;
     width: 500px;
-    height: 500px;
+    height: 30px;
     text-align: center;
-    border-radius: 10px;
-    border: 3px solid #474747; }
-    .contenedor_tablero .casilla {
-        margin-top: 20px;
+    line-height: 40px;
+    display: flex;
+    justify-content: center;}
+    .eleccion_tamano .boton {
+        margin-top: -5px;
         margin-left: 20px;
-        background: #ffffff;
+        background: #989898;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: bold;
         width: 120px;
-        height: 120px;
+        height: 40px;
         text-align: center;
         border-radius: 10px;
         border: 3px solid #474747;
         display: inline-block; }
-.check_numeros {
-    margin-top: 515px;
-    margin-left: -360px; }
-    .check_numeros:hover {
-        cursor: pointer; } 
+        .eleccion_tamano .boton:hover {
+            cursor: pointer;
+            background: #707070;
+            color: #ffffff;
+}
+.tablero {
+    margin: auto;
+    margin-top: 20px;
+    width: 405px;
+    height: 405px;
+    text-align: center;
+    border-radius: 10px;
+    border: 5px solid #474747; 
+    display: flex;
+    flex-wrap: wrap;}
+.casilla {
+    width: 90px;
+    height: 90px;
+    border: 5px solid #474747;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex; 
+    justify-content: center;
+    align-items: center; }
 
 .contenedor_botones {
+    margin: auto;
     margin-top: 20px;
-    margin-left: 0px;
     width: 500px;
     height: 60px;
     text-align: center;
     line-height: 40px;
+    display: flex;
+    justify-content: center;
     /* background: #ffc4c4; */
     /* border: 3px solid #474747; */
     /* border-radius: 10px; } */ }

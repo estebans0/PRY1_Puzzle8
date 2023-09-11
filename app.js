@@ -1,28 +1,34 @@
-const contenedor_puzzle = document.querySelector("#contenedor_puzzle");
-let puzzle = [];
-let tamano_puzzle = 3;
+var tablero = [];
+var tamano = 3;
 
-generarPuzzle();
-
-function obtenerFila(posicion) {
-    return Math.ceil(posicion / tamano_puzzle);
+window.onload = function(){
+    mostrarTablero();
 }
 
-function obtenerColumna(posicion) {
-    let col = posicion % tamano_puzzle;
-    if (col == 0) {
-        return tamano_puzzle; }
-    return col;
-}
 
-function generarPuzzle() {
-    for (let i = 1; i < tamano_puzzle * tamano_puzzle; i++) {
-        puzzle.push({
-            valor: i,
-            posicion: i,
-            x: (obtenerColumna(i) - 1) * 200,
-            y: (obtenerFila(i) - 1) * 200,
-        });
+
+function crearTablero(){
+    for (let f = 0; f < tamano; f++) {
+        tablero[f] = [];
+        for (let c = 0; c < tamano; c++) {
+            tablero[f][c] = f*tamano + c + 1;
+        }
     }
-    console.log(puzzle);
+    return tablero;
+}
+
+function mostrarTablero(){
+    let tablero = crearTablero();
+    for (let f = 0; f < tamano; f++) {
+        for (let c = 0; c < tamano; c++) {
+            let casilla = document.createElement("div");
+            casilla.id = f.toString() + "-" + c.toString();
+            let num = tablero[f][c];
+            casilla.innerHTML = num;
+            casilla.classList.add("casilla");
+            casilla.style.height = (90/tamano).toString() + "%";
+            casilla.style.width = (90/tamano).toString() + "%";
+            document.querySelector(".tablero").append(casilla);
+        }
+    }
 }
