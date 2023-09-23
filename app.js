@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var decremento = 0.3;
     var casillaActual = 0;
     fichaVacia = 0
+    nombreImagen = ""
 
     function crearTablero(){
         for (let f = 0; f < tamano; f++) {
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("img1").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img1");
+        nombreImagen = "pepe"
     };
     document.getElementById("img2").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img2");
@@ -67,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 casilla.style.backgroundImage = "";
                 casilla.style.backgroundColor = "grey";
             } else {
-            casilla.style.backgroundImage = "url(" + imagen.src + ")";
+            rutaImagen = "'imagenes/" + nombreImagen + tamano + "x" + tamano + casilla.innerHTML + ".jpg'"
+            casilla.style.backgroundImage = "url(" + rutaImagen + ")";
             casilla.style.backgroundSize = "cover";
             casilla.style.backgroundPosition = "center"; }
         });
