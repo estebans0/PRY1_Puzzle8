@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var tamano = 3;
     var decremento = 0.3;
     var casillaActual = 0;
+    fichaVacia = 0
 
     function crearTablero(){
         for (let f = 0; f < tamano; f++) {
@@ -62,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let casillas = document.querySelectorAll(".casilla");
         let imagen = imagenSeleccionada[Math.floor(Math.random()*imagenSeleccionada.length)];
         casillas.forEach(casilla => {
-            if (casilla.innerHTML == casillaActual.toString()) {
-                casilla.style.backgroundImage = "none";
+            if (parseInt(casilla.innerHTML, 10) == fichaVacia) {
+                casilla.style.backgroundImage = "";
                 casilla.style.backgroundColor = "grey";
             } else {
             casilla.style.backgroundImage = "url(" + imagen.src + ")";
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tamano = document.getElementById("tamano").value;
         decremento = 0.3156 * (tamano-3);
         casillaActual = Math.floor(Math.random() * (tamano*tamano))+1;
+        fichaVacia = casillaActual
         mostrarTablero();
         mostrarImagen();
     });
@@ -99,25 +101,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moverCasilla(direccion){
         let casilla = document.getElementById(casillaActual.toString());
-        let casillaArriba = document.getElementById((casillaActual-tamano).toString());
-        let casillaAbajo = document.getElementById((casillaActual+tamano).toString());
+        let casillaArriba = document.getElementById((casillaActual-parseInt(tamano, 10)).toString());
+        let casillaAbajo = document.getElementById((casillaActual+parseInt(tamano, 10)).toString());
         let casillaIzq = document.getElementById((casillaActual-1).toString());
         let casillaDer = document.getElementById((casillaActual+1).toString());
+
         if (direccion == "arriba" && casillaArriba != null) {
             casilla.innerHTML = casillaArriba.innerHTML;
-            casillaArriba.innerHTML = casillaActual.toString();
-            casillaActual -= tamano;
+            casillaArriba.innerHTML = fichaVacia.toString();
+            casillaActual -= parseInt(tamano, 10);
+            
         } else if (direccion == "abajo" && casillaAbajo != null) {
             casilla.innerHTML = casillaAbajo.innerHTML;
-            casillaAbajo.innerHTML = casillaActual.toString();
-            casillaActual += tamano;
+            casillaAbajo.innerHTML = fichaVacia.toString();
+            casillaActual += parseInt(tamano, 10);
+
         } else if (direccion == "izq" && casillaIzq != null) {
             casilla.innerHTML = casillaIzq.innerHTML;
-            casillaIzq.innerHTML = casillaActual.toString();
+            casillaIzq.innerHTML = fichaVacia.toString();
             casillaActual -= 1;
+            
         } else if (direccion == "der" && casillaDer != null) {
             casilla.innerHTML = casillaDer.innerHTML;
-            casillaDer.innerHTML = casillaActual.toString();
+            casillaDer.innerHTML = fichaVacia.toString();
             casillaActual += 1;
         } else {
 
