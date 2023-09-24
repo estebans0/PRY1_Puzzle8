@@ -26,6 +26,19 @@ function obtenerPosicionCero(tablero) {
     }
 }
 
+
+function matrizMovimientoImposible(n, m) {
+    const matriz = [];
+    for (let i = 0; i < n; i++) {
+      matriz[i] = [];
+      for (let j = 0; j < m; j++) {
+        matriz[i][j] = -1;
+      }
+    }
+    return matriz;
+}
+
+
 function generarPosiblesMovimientos(tablero) {
     let posiblesMovimientos = [];
     let posCero = obtenerPosicionCero(tablero);
@@ -62,7 +75,8 @@ function generarPosiblesTableros(tablero) {
         let fila = posiblesMovimientos[i][0];
         let columna = posiblesMovimientos[i][1];
         if (fila == -1 || columna == -1) {
-            posiblesTableros.push(-1);
+            matrizNula = matrizMovimientoImposible(tableroInicial.length, tableroInicial[0].length)
+            posiblesTableros.push(matrizNula);
             continue;
         }
         let tableroCopia = tablero.map((arr) => arr.slice());
@@ -105,7 +119,13 @@ function main(){
 
     // Imprime el padre y los hijos de cada nodo
     console.log(obtenerPadreHijos(1));
-    console.log(obtenerPadreHijos(2));
-    console.log(obtenerPadreHijos(3));
-    console.log(obtenerPadreHijos(4));
+    prueba = obtenerPadreHijos(1)
+
+    for(let i = 0; i < prueba.length; i++){
+        console.log(arbol[prueba[i]]);
+    }
+
+    //console.log(obtenerPadreHijos(2));
+    //console.log(obtenerPadreHijos(3));
+    //console.log(obtenerPadreHijos(4));
 }
