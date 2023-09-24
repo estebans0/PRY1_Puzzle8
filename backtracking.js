@@ -1,11 +1,18 @@
 var tableroFinal = [[1,2,3],[4,5,6],[7,8,0]];
 var tableroInicial = [
-    [1,4,3],
-    [5,0,8],
-    [7,6,3]];
+    [4,1,3],
+    [0,2,6],
+    [7,5,8]];
 var arbol = [];
+var tableros = [];
+var solucionado = false;
+var indiceSolucion = 0;
+var listaSolucion = [];
 
-main()
+// Agrega el tablero inicial al arbol
+arbol.push(tableroInicial);
+console.log(backtracking(0))
+//console.log(arbol);
 
 function obtenerPadreHijos(n) {
     let padre = Math.floor((n-1)/4);
@@ -25,7 +32,6 @@ function obtenerPosicionCero(tablero) {
         }
     }
 }
-
 
 function matrizMovimientoImposible(n, m) {
     const matriz = [];
@@ -69,6 +75,12 @@ function generarPosiblesMovimientos(tablero) {
 
 function generarPosiblesTableros(tablero) {
     let posiblesTableros = [];
+    if (tablero[0][0] == -1) {
+        for (let i = 0; i < 4; i++) {
+            posiblesTableros.push(tablero);
+        }
+        return posiblesTableros;
+    }
     let posiblesMovimientos = generarPosiblesMovimientos(tablero);
     let posicionCero = obtenerPosicionCero(tablero);
     for (let i = 0; i < posiblesMovimientos.length; i++) {
@@ -93,39 +105,36 @@ function llenarArbol(posiblesTableros) {
     }
 }
 
-function main(){
-    // Agrega el tablero inicial al arbol
-    arbol.push(tableroInicial);
-
-    // Genera los posibles tableros a partir del tablero inicial y los agrega al arbol
-    let tableros = generarPosiblesTableros(tableroInicial);
-    llenarArbol(tableros);
-
-    // Genera los posibles tableros de cada posible tablero generado en el paso anterior y los agrega al arbol
-    tableros = generarPosiblesTableros(arbol[1]);
-    llenarArbol(tableros);
-
-    tableros = generarPosiblesTableros(arbol[2]);
-    llenarArbol(tableros);
-
-    tableros = generarPosiblesTableros(arbol[3]);
-    llenarArbol(tableros);
-
-    tableros = generarPosiblesTableros(arbol[4]);
-    llenarArbol(tableros);
-
-    // Imprime el arbol
-    console.log(arbol);
-
-    // Imprime el padre y los hijos de cada nodo
-    console.log(obtenerPadreHijos(1));
-    prueba = obtenerPadreHijos(1)
-
-    for(let i = 0; i < prueba.length; i++){
-        console.log(arbol[prueba[i]]);
+function esSolucion(estado) {
+    for (let i = 0; i < estado.length; i++) {
+        for (let j = 0; j < estado[i].length; j++) {
+            if (estado[i][j] != tableroFinal[i][j]) {
+                return false;
+            }
+        }
     }
+    return true;
+}
 
-    //console.log(obtenerPadreHijos(2));
-    //console.log(obtenerPadreHijos(3));
-    //console.log(obtenerPadreHijos(4));
+function obtenerMovimientos(indiceSolucion) {
+    while (indiceSolucion > 0) {
+        let padre = Math.floor((indiceSolucion-1)/4);
+        listaSolucion.push(arbol[padre]);
+        indiceSolucion = padre;
+    }
+    return listaSolucion;
+}
+
+function backtracking(k){
+    // Genera los posibles tableros de cada posible tablero generado en el paso anterior y los agrega al arbol
+    tableros = generarPosiblesTableros(arbol[k]);
+    llenarArbol(tableros);
+    for (let i = 0; i < tableros.length; i++) {
+        if (esSolucion(tableros[i])) {
+            indiceSolucion = (k*4)+i+1;
+            listaSolucion.push(arbol[indiceSolucion]);
+            return obtenerMovimientos(indiceSolucion);
+        }
+    }
+    return backtracking(k+1);
 }
