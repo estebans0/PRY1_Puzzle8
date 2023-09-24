@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fichaVacia = 0
     nombreImagen = ""
 
+    /**
+     * Retorna el tablero segun el tamanno actual de este.
+     * @returns {Array<Array<number>>}
+     */
     function crearTablero(){
         for (let f = 0; f < tamano; f++) {
             tablero[f] = [];
@@ -20,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return tablero;
     }
-
+    /**
+     * Hace display del tablero en la pantalla.
+     */
     function mostrarTablero(){
         let tablero = crearTablero();
         for (let f = 0; f < tamano; f++) {
@@ -36,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
+    /**
+     * Remueve todas las casillas del tablero. Dejandolo limpio.
+     */
     function limpiarTablero(){
         let casillas = document.querySelectorAll(".casilla");
         casillas.forEach(casilla => {
@@ -60,7 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("img5").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img5");
     };
-
+    
+    /**
+     * Muestra la imagen distibuida en todas las casillas.
+     */
     function mostrarImagen(){
         let casillas = document.querySelectorAll(".casilla");
         let imagen = imagenSeleccionada[Math.floor(Math.random()*imagenSeleccionada.length)];
@@ -90,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarImagen();
     });
 
+
     function mezclarTablero(){
         
     }
@@ -102,6 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
 
+    /**
+     * Mueve la casilla y hace display del movimiento
+     * @param {String} direccion 
+     */
     function moverCasilla(direccion){
         let casilla = document.getElementById(casillaActual.toString());
         let casillaArriba = document.getElementById((casillaActual-parseInt(tamano, 10)).toString());
