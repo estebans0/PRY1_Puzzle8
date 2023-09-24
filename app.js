@@ -35,11 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector(".tablero").append(casilla);
             }
         }
+        console.log("este es el tablero ");
+        console.log(tablero);
     }
 
     function limpiarTablero(){
         let casillas = document.querySelectorAll(".casilla");
         casillas.forEach(casilla => {
+           
             casilla.remove();
         });
     }
@@ -89,9 +92,49 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarTablero();
         mostrarImagen();
     });
+    function crearLista()
+    {
+        lista=[];
+        for(i=1;i<10;i++)
+        {   if(i!=fichaVacia)
+            lista.push(i);
 
-    function mezclarTablero(){
+        }
+
+        return lista;
+    }
+    function mezclarLista()
+    {
+        lista=crearLista();
+
+        lista.sort(function() {
+            return 0.5 - Math.random();
+          });
+          
+        return lista;
         
+    }
+    function mezclarTablero(){
+        iterador=0
+        lista = mezclarLista();
+        largo = lista.length;
+        let casillas = document.querySelectorAll(".casilla");
+        casillas.forEach(casilla => {
+           //casillagris=document.getElementById(casillaActual.toString());
+           cambio=document.getElementById((lista[iterador]).toString());
+           //temp=casilla.id;
+           temp2=casilla.innerHTML;
+            //casilla.id=cambio.id;
+           // cambio.id=temp;
+           if (fichaVacia!=casilla.id ){
+            casilla.innerHTML=cambio.innerHTML;
+            cambio.innerHTML=temp2;
+           }
+            iterador+=1;
+            mostrarImagen();
+            console.log(casilla);
+            
+        });
     }
 
     botonMezclar.addEventListener("click", () => {
@@ -104,6 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moverCasilla(direccion){
         let casilla = document.getElementById(casillaActual.toString());
+        //console.log(casilla.id);
+        //console.log(casillaActual);
+        console.log(tablero);
         let casillaArriba = document.getElementById((casillaActual-parseInt(tamano, 10)).toString());
         let casillaAbajo = document.getElementById((casillaActual+parseInt(tamano, 10)).toString());
         let casillaIzq = document.getElementById((casillaActual-1).toString());
