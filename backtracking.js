@@ -1,8 +1,22 @@
-var tableroFinal = [[1,2,3],[4,5,6],[7,8,0]];
+//tablero 3x3
+//var tableroFinal = [[1,2,3],[4,5,6],[7,8,0]];
+//var tableroInicial = [
+//    [4,1,3],
+//    [0,2,6],
+//    [7,5,8]];
+//tablero 4x4
+var tableroFinal = [
+    [1,2,3,4],
+    [5,6,7,8],
+    [9,10,11,12],
+    [13,14,15,0]];
 var tableroInicial = [
-    [4,1,3],
-    [0,2,6],
-    [7,5,8]];
+    [1,2,3,4],
+    [0,6,7,8],
+    [5,10,11,12],
+    [9,13,14,15]];
+
+var tamanoMatriz = tableroInicial[0].length - 1;
 var arbol = [];
 var tableros = [];
 var solucionado = false;
@@ -55,7 +69,7 @@ function generarPosiblesMovimientos(tablero) {
     } else {
         posiblesMovimientos.push([-1,-1]);
     }
-    if (fila < 2) {
+    if (fila < tamanoMatriz) {
         posiblesMovimientos.push([fila+1, columna]);
     } else {
         posiblesMovimientos.push([-1,-1]);
@@ -65,7 +79,7 @@ function generarPosiblesMovimientos(tablero) {
     } else {
         posiblesMovimientos.push([-1,-1]);
     }
-    if (columna < 2) {
+    if (columna < tamanoMatriz) {
         posiblesMovimientos.push([fila, columna+1]);
     } else {
         posiblesMovimientos.push([-1,-1]);
@@ -76,7 +90,7 @@ function generarPosiblesMovimientos(tablero) {
 function generarPosiblesTableros(tablero) {
     let posiblesTableros = [];
     if (tablero[0][0] == -1) {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < tablero[0].length; i++) {
             posiblesTableros.push(tablero);
         }
         return posiblesTableros;
