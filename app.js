@@ -50,26 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     document.getElementById("img2").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img2");
+        nombreImagen = "brain"
     };
     document.getElementById("img3").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img3");
+        nombreImagen = "michi"
     };
     document.getElementById("img4").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img4");
-    };
-    document.getElementById("img5").onclick = function() {
-        imagenSeleccionada = document.querySelectorAll("#img5");
+        nombreImagen = "elmo"
     };
 
     function mostrarImagen(){
         let casillas = document.querySelectorAll(".casilla");
-        let imagen = imagenSeleccionada[Math.floor(Math.random()*imagenSeleccionada.length)];
         casillas.forEach(casilla => {
             if (parseInt(casilla.innerHTML, 10) == fichaVacia) {
                 casilla.style.backgroundImage = "";
                 casilla.style.backgroundColor = "grey";
             } else {
-            rutaImagen = "'imagenes/" + nombreImagen + tamano + "x" + tamano + casilla.innerHTML + ".jpg'"
+            rutaImagen = "'imagenes/" + tamano + "x" + tamano + "/" + nombreImagen + tamano + "x" + tamano + casilla.innerHTML + ".jpg'"
             casilla.style.backgroundImage = "url(" + rutaImagen + ")";
             casilla.style.backgroundSize = "cover";
             casilla.style.backgroundPosition = "center"; }

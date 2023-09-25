@@ -1,8 +1,8 @@
 var tableroFinal = [[1,2,3],[4,5,6],[7,8,0]];
 var tableroInicial = [
-    [1,4,3],
-    [5,0,8],
-    [7,6,3]];
+    [1,2,3],
+    [4,5,6],
+    [7,0,8]];
 var arbol = [];
 
 main()
@@ -69,20 +69,27 @@ function generarPosiblesMovimientos(tablero) {
 
 function generarPosiblesTableros(tablero) {
     let posiblesTableros = [];
-    let posiblesMovimientos = generarPosiblesMovimientos(tablero);
-    let posicionCero = obtenerPosicionCero(tablero);
-    for (let i = 0; i < posiblesMovimientos.length; i++) {
-        let fila = posiblesMovimientos[i][0];
-        let columna = posiblesMovimientos[i][1];
-        if (fila == -1 || columna == -1) {
+    if (tablero[0][0] != -1){
+        let posiblesMovimientos = generarPosiblesMovimientos(tablero);
+        let posicionCero = obtenerPosicionCero(tablero);
+        for (let i = 0; i < posiblesMovimientos.length; i++) {
+            let fila = posiblesMovimientos[i][0];
+            let columna = posiblesMovimientos[i][1];
+            if (fila == -1 || columna == -1) {
+                matrizNula = matrizMovimientoImposible(tableroInicial.length, tableroInicial[0].length)
+                posiblesTableros.push(matrizNula);
+                continue;
+            }
+            let tableroCopia = tablero.map((arr) => arr.slice());
+            tableroCopia[fila][columna] = 0;
+            tableroCopia[posicionCero[0]][posicionCero[1]] = tablero[fila][columna];
+            posiblesTableros.push(tableroCopia);
+        }
+    }else{
+        for (let i = 0; i < 4; i++){
             matrizNula = matrizMovimientoImposible(tableroInicial.length, tableroInicial[0].length)
             posiblesTableros.push(matrizNula);
-            continue;
         }
-        let tableroCopia = tablero.map((arr) => arr.slice());
-        tableroCopia[fila][columna] = 0;
-        tableroCopia[posicionCero[0]][posicionCero[1]] = tablero[fila][columna];
-        posiblesTableros.push(tableroCopia);
     }
     return posiblesTableros;
 }
@@ -100,6 +107,14 @@ function main(){
     // Genera los posibles tableros a partir del tablero inicial y los agrega al arbol
     let tableros = generarPosiblesTableros(tableroInicial);
     llenarArbol(tableros);
+
+    for (let i = 0; i < tableros.length; i++){
+        console.log(tableroFinal == tableros[i])
+        //console.log(tableros[i])
+        if (tableroFinal == tableros[i]){
+            return; 
+        }
+    }
 
     // Genera los posibles tableros de cada posible tablero generado en el paso anterior y los agrega al arbol
     tableros = generarPosiblesTableros(arbol[1]);
