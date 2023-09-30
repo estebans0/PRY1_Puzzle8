@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.width = anchoImg;
                 canvas.height = altoImg;
                 context.drawImage(img, x, y, anchoImg, altoImg, 0, 0, anchoImg, altoImg);
-                let pieza = document.createElement("IMG");
+                let pieza = new Image();
                 pieza.src = canvas.toDataURL();
                 piezas.push(pieza);
             }
@@ -105,14 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 casilla.style.backgroundImage = "";
                 casilla.style.backgroundColor = "grey";
             } else {
-            //casilla.appendChild(piezas[i]);
-            casilla.style.backgroundImage = "url(" + piezas[i].src + ")";
-            casilla.style.backgroundSize = "cover";
-            casilla.style.backgroundPosition = "center";
-            tamValue = dicTamDiv[tamano];
-            tableroo.style.height = tamValue;
-            tableroo.style.width = tamValue;
-            i++; }
+                casilla.style.backgroundImage = "url(" + piezas[i].src + ")";
+                casilla.style.backgroundSize = "cover";
+                casilla.style.backgroundPosition = "center";
+                tamValue = dicTamDiv[tamano];
+                tableroo.style.height = tamValue;
+                tableroo.style.width = tamValue;
+            }
+            i++;
         });
     }
 
@@ -151,6 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
 
+    function changeImage(casillaModificar, casillaActual){
+        casillaActual.style.backgroundImage = casillaModificar.style.backgroundImage;
+        casillaModificar.style.backgroundImage = "";
+        casillaModificar.style.backgroundColor = "grey";
+    }
+
     function moverCasilla(direccion){
         let casilla = document.getElementById(casillaActual.toString());
         let casillaArriba = document.getElementById((casillaActual-parseInt(tamano, 10)).toString());
@@ -159,28 +165,35 @@ document.addEventListener('DOMContentLoaded', () => {
         let casillaDer = document.getElementById((casillaActual+1).toString());
 
         if (direccion == "arriba" && casillaArriba != null) {
-            casilla.innerHTML = casillaArriba.innerHTML;
-            casillaArriba.innerHTML = fichaVacia.toString();
+            //casilla.innerHTML = casillaArriba.innerHTML;
+            //casillaArriba.innerHTML = fichaVacia.toString();
+
+            changeImage(casillaArriba, casilla);
             casillaActual -= parseInt(tamano, 10);
             
         } else if (direccion == "abajo" && casillaAbajo != null) {
-            casilla.innerHTML = casillaAbajo.innerHTML;
-            casillaAbajo.innerHTML = fichaVacia.toString();
+            //casilla.innerHTML = casillaAbajo.innerHTML;
+            //casillaAbajo.innerHTML = fichaVacia.toString();
+
+            changeImage(casillaAbajo, casilla);
             casillaActual += parseInt(tamano, 10);
 
         } else if (direccion == "izq" && casillaIzq != null) {
-            casilla.innerHTML = casillaIzq.innerHTML;
-            casillaIzq.innerHTML = fichaVacia.toString();
+            //casilla.innerHTML = casillaIzq.innerHTML;
+            //casillaIzq.innerHTML = fichaVacia.toString();
+            //mostrarImagen();
+            changeImage(casillaIzq, casilla);
             casillaActual -= 1;
             
         } else if (direccion == "der" && casillaDer != null) {
-            casilla.innerHTML = casillaDer.innerHTML;
-            casillaDer.innerHTML = fichaVacia.toString();
+            //casilla.innerHTML = casillaDer.innerHTML;
+            //casillaDer.innerHTML = fichaVacia.toString();
+            //mostrarImagen();
+            changeImage(casillaDer, casilla);
             casillaActual += 1;
         } else {
 
         }
-        mostrarImagen();
     }
 
     document.addEventListener("keyup", (evento) => {
