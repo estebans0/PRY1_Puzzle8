@@ -7,9 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     var tablero = [];
     var tamano = 3;
     var decremento = 0.3;
+    var decrementoImg = 0.3;
     var casillaActual = 0;
     fichaVacia = 0
     nombreImagen = ""
+    var fichaVacia = 0
+    var nombreImagen = ""
+    var piezas = []
+    var dicTamDiv = {3 : "502px", 4 : "501.5px", 5 : "503px", 6 : "508px", 7 : "507px",
+        8 : "506.5px", 9 : "508px", 10 : "505.5px", 11 : "507.5px", 12 : "508px", 13 : "510px",
+        14 : "507px", 15 : "507px", 16 : "513px", 17 : "517px", 18 : "509px", 19 : "518px", 20 : "502px"};
 
     function crearTablero(){
         for (let f = 0; f < tamano; f++) {
@@ -47,14 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("img1").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img1");
         nombreImagen = "pepe"
+        obtenerPiezas();
     };
     document.getElementById("img2").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img2");
         nombreImagen = "brain"
+        obtenerPiezas();
     };
     document.getElementById("img3").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img3");
         nombreImagen = "michi"
+        obtenerPiezas();
     };
     document.getElementById("img4").onclick = function() {
         imagenSeleccionada = document.querySelectorAll("#img4");
@@ -63,6 +73,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function mostrarImagen(){
         let casillas = document.querySelectorAll(".casilla");
+        obtenerPiezas();
+    };
+
+    function obtenerPiezas() {
+        piezas = [];
+        tamano = document.getElementById("tamano").value;
+        decrementoImg = 0.3156 * (tamano-3);
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
+        let img = new Image();
+        img.src = imagenSeleccionada[0].src;
+
+        let anchoImg = img.width / tamano - (decrementoImg*2);
+        let altoImg = img.height / tamano - (decrementoImg*2);
+        for (let c = 0; c < tamano; c++) {
+            for (let f = 0; f < tamano; f++) {
+                let x = f * anchoImg;
+                let y = c * altoImg;
+                canvas.width = anchoImg;
+                canvas.height = altoImg;
+                context.drawImage(img, x, y, anchoImg, altoImg, 0, 0, anchoImg, altoImg);
+                let pieza = document.createElement("IMG");
+                pieza.src = canvas.toDataURL();
+                piezas.push(pieza);
+            }
+        }
+    }
+
+    function mostrarImagen(){
+        let casillas = document.querySelectorAll(".casilla");
+        let tableroo = document.querySelectorAll(".tablero")[0];
+        let tamValue = dicTamDiv[tamano];
+        let i = 0;
         casillas.forEach(casilla => {
             if (parseInt(casilla.innerHTML, 10) == fichaVacia) {
                 casilla.style.backgroundImage = "";
@@ -70,16 +113,32 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
             rutaImagen = "'imagenes/" + tamano + "x" + tamano + "/" + nombreImagen + tamano + "x" + tamano + casilla.innerHTML + ".jpg'"
             casilla.style.backgroundImage = "url(" + rutaImagen + ")";
+            //casilla.appendChild(piezas[i]);
+            casilla.style.backgroundImage = "url(" + piezas[i].src + ")";
             casilla.style.backgroundSize = "cover";
-            casilla.style.backgroundPosition = "center"; }
+            casilla.style.backgroundPosition = "center";
+            tamValue = dicTamDiv[tamano];
+            tableroo.style.height = tamValue;
+            tableroo.style.width = tamValue;
+            i++; }
         });
     }
 
     contenedorImagenes.addEventListener("click", () => {
+        limpiarTablero();
+        tamano = document.getElementById("tamano").value;
+        decremento = 0.3156 * (tamano-3);
+        casillaActual = Math.floor(Math.random() * (tamano*tamano))+1;
+        fichaVacia = casillaActual
+        mostrarTablero();
         mostrarImagen();
     });
 
     botonTamano.addEventListener("click", () =>{
+        if (nombreImagen == "") {
+            alert("Seleccione una imagen");
+            return;
+        }
         limpiarTablero();
         tamano = document.getElementById("tamano").value;
         decremento = 0.3156 * (tamano-3);

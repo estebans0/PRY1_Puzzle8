@@ -66,8 +66,8 @@ html, body { /* Define los parámetros del fondo */
 .tablero {
     margin: auto;
     margin-top: 20px;
-    width: 499.9px;
-    height: 500px;
+    width: 502px;
+    height: 502px;
     text-align: center;
     border: 3px solid #474747; 
     display: flex;
@@ -91,10 +91,7 @@ html, body { /* Define los parámetros del fondo */
     text-align: center;
     line-height: 40px;
     display: flex;
-    justify-content: center;
-    /* background: #ffc4c4; */
-    /* border: 3px solid #474747; */
-    /* border-radius: 10px; } */ }
+    justify-content: center; }
     .contenedor_botones .boton {
         margin-left: 20px;
         background: #989898;
