@@ -1,3 +1,10 @@
+/* Autores:
+    - Brandon Calderon Cubero
+    - Esteban Solano Araya
+    - Gerardo Gomez Brenes
+    - Pamela Fernandez Mora
+*/
+
 var inicio = [];
 var tablero_solucion = [];
 
@@ -6,6 +13,12 @@ var abiertos = [];
 var tamanoMatriz = 0;
 var ruta = [];
 
+/**
+ * Reinicia las variables globales y llama a la funcion a_star()
+ * @param {*} tableroInicial 
+ * @param {*} tamano 
+ * @returns 
+ */
 function a_starMain(tableroInicial, tamano) {
     ruta = [];
     cerrados = [];
@@ -17,6 +30,12 @@ function a_starMain(tableroInicial, tamano) {
     return ruta;
 }
 
+/**
+ * Retorna el tablero solucion segun el tamanno indicado en el parametro 
+ * @param {Array<Array<number>>} tablero 
+ * @param {number} tamano 
+ * @returns {Array<Array<number>>}
+ */
 function crearTableroSolucion(tablero, tamano) {
     for (let f = 0; f < tamano; f++) {
         tablero[f] = [];
@@ -28,6 +47,11 @@ function crearTableroSolucion(tablero, tamano) {
     return tablero;
 }
 
+/**
+ * Obtiene la posicion del cero en el tablero. Y lo retorna como una lista de dos elementos [fila,col].
+ * @param {Array<Array<number>>} tablero 
+ * @returns {number}
+ */
 function obtenerPosicionCero(tablero) {
     for (let i = 0; i < tablero.length; i++) {
         for (let j = 0; j < tablero[i].length; j++) {
@@ -38,6 +62,12 @@ function obtenerPosicionCero(tablero) {
     }
 }
 
+/**
+ * Retorna la posicion de un numero en el tablero.
+ * @param {Array<Array<number>>} tablero 
+ * @param {number} elemento 
+ * @returns {Array<number>}
+ */
 function obtenerPosicionElemento(tablero, elemento) {
     for (let i = 0; i < tablero.length; i++) {
         for (let j = 0; j < tablero[i].length; j++) {
@@ -48,6 +78,11 @@ function obtenerPosicionElemento(tablero, elemento) {
     }
 }
 
+/**
+ * Genera una lista de los posibles movimientos que pueden realizarse en el tablero.
+ * @param {Array<Array<number>>} tablero 
+ * @returns Array<Array<number>>
+ */
 function generarPosiblesMovimientos(tablero) {
     let posiblesMovimientos = [];
     let posCero = obtenerPosicionCero(tablero);
@@ -76,6 +111,12 @@ function generarPosiblesMovimientos(tablero) {
     return posiblesMovimientos;
 }
 
+/**
+ * Si el tablero actual existe en la lista de tableros cerrados, retorna true. De lo contrario retorna false.
+ * @param {} listaCerrados 
+ * @param {} tablero 
+ * @returns 
+ */
 function tableroYaFueRevisado(listaCerrados, tablero) {
     for (let i = 0; i < listaCerrados.length; i++) {
         if (listaCerrados[i][1].toString() == tablero.toString()) {
@@ -85,6 +126,11 @@ function tableroYaFueRevisado(listaCerrados, tablero) {
     return false;
 }
 
+/**
+ * Retorna una lista con los todos los posibles tableros de acuerdo a los posibles movimientos.
+ * @param {Array<Array<number>>} tablero 
+ * @returns {Array<Array<Array<number>>>}
+ */
 function generarPosiblesTableros(tablero) {
     let posiblesTableros = [];
     let posiblesMovimientos = generarPosiblesMovimientos(tablero);
@@ -106,6 +152,11 @@ function generarPosiblesTableros(tablero) {
     return posiblesTableros;
 }
 
+/**
+ * Calcula la distancia Manhattan de un tablero de su posicion actual a su posicion final.
+ * @param {Array<Array<number>>} tablero 
+ * @returns number
+ */
 function h(tablero){
     let h = 0
     for (let i = 0; i < tablero.length; i++)
@@ -116,10 +167,21 @@ function h(tablero){
     return h;
 }
 
+/**
+ * Funcion f del algoritmo A*. Retorna la suma de la funcion h y la funcion g (el nivel en el que se encuentra el tablero).
+ * @param {Array<Array<number>>} tablero 
+ * @param {number} g 
+ * @returns {number}
+ */
 function f(tablero, g){
     return h(tablero) + g;
 }
 
+/**
+ * Convierte matriz a id.
+ * @param {*} tablero 
+ * @returns {String}
+ */
 function convertirMatrizId(tablero){
     let id = ''
     for (let i = 0; i < tablero.length; i++){
@@ -130,6 +192,13 @@ function convertirMatrizId(tablero){
     return id  
 }
 
+/**
+ * Crea lista con los nodos hijos de un tablero.
+ * @param {Array<number>} hijos 
+ * @param {Array<number>} padre 
+ * @param {number} nivel 
+ * @returns 
+ */
 function crearNodosHijos(hijos, padre, nivel){
     let nodosHijos = [];
     for (let i = 0; i < hijos.length; i++){
@@ -140,6 +209,11 @@ function crearNodosHijos(hijos, padre, nivel){
     return nodosHijos;
 }
 
+/**
+ * Ordena los hijos de un tablero de menor a mayor, de acuerdo a su f.
+ * @param {Array<Array<number>>} hijos 
+ * @returns {Array<Array<number>>}
+ */
 function sortNodos(hijos){
     for (let i = 0; i < hijos.length; i++) {
         for (let j = 0; j < hijos.length; j++) {
@@ -153,8 +227,12 @@ function sortNodos(hijos){
     return hijos
 }
 
-// ESTRUCTURA DEL NODO 
-// [[matrizPadre, matrizActual], matriz, f, nivel]
+/**
+ * Usando las funciones definidas arriba, lleva a cabo la solucion del tablero usando el algoritmo A*
+ * y genera una ruta de solución. 
+ * Estructura del nodo usado: [[matrizPadre, matrizActual], matriz, f, nivel]
+ * @returns {Array<Array<number>>}
+ */
 function a_star(){
     let raiz = [[0, convertirMatrizId(inicio)], inicio, f(inicio, 0), 0];
     abiertos.push(raiz);

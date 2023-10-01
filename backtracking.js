@@ -1,10 +1,12 @@
+/* Autores:
+    - Brandon Calderon Cubero
+    - Esteban Solano Araya
+    - Gerardo Gomez Brenes
+    - Pamela Fernandez Mora
+*/
+
 var tableroFinal = [];
 var tableroInicial = [];
-//var tableroFinal = [[1,2,3],[4,5,6],[7,8,0]];
-//var tableroInicial = 
-//[[1,2,3],
-// [4,5,6],
-// [0,7,8]];
 var tamanoMatriz = 0
 var arbol = [];
 var tableros = [];
@@ -12,7 +14,13 @@ var solucionado = false;
 var indiceSolucion = 0;
 var rutaB = [];
 
-// Agrega el tablero inicial al arbol
+/**
+ * Reinicia las variables globales, agrega el tablero inicial al arbol
+ * y llama a la funcion backtracking()
+ * @param {Array<Array<number>>} tablero 
+ * @param {number} tamano 
+ * @returns  {Array}
+ */
 function backtrackingMain(tablero, tamano) {
     rutaB = [];
     arbol = [];
@@ -23,7 +31,12 @@ function backtrackingMain(tablero, tamano) {
     backtracking(0);
     return rutaB;
 }
-
+/**
+ * Retorna el tablero solucion segun la variable tablero y tamano entrando como parametros.
+ * @param {Array<Array<number>>} tablero 
+ * @param {number} tamano 
+ * @returns {Array<Array<number>>}
+ */
 function crearTableroSolucionB(tablero, tamano) {
     for (let f = 0; f < tamano; f++) {
         tablero[f] = [];
@@ -35,6 +48,11 @@ function crearTableroSolucionB(tablero, tamano) {
     return tablero;
 }
 
+/**
+ * Convierte la matriz en un string para que sea usado como id.
+ * @param {Array<Array<number>>} tablero 
+ * @returns {string}
+ */
 function convertirMatrizIdB(tablero){
     let id = ''
     for (let i = 0; i < tablero.length; i++){
@@ -45,6 +63,11 @@ function convertirMatrizIdB(tablero){
     return id  
 }
 
+/**
+ * Obtiene la posicion del cero en el tablero. Y lo retorna como una lista de dos elementos [fila,col].
+ * @param {Array<Array<number>>} tablero 
+ * @returns number
+ */
 function obtenerPosicionCeroB(tablero) {
     for (let i = 0; i < tablero.length; i++) {
         for (let j = 0; j < tablero[i].length; j++) {
@@ -55,6 +78,12 @@ function obtenerPosicionCeroB(tablero) {
     }
 }
 
+/**
+ * Retorna matriz llena de -1 indicando que el movimiento hacia esa posicion es invalido.
+ * @param {number} n 
+ * @param {number} m 
+ * @returns Array<Array<number>>
+ */
 function matrizMovimientoImposibleB(n, m) {
     const matriz = [];
     for (let i = 0; i < n; i++) {
@@ -66,7 +95,12 @@ function matrizMovimientoImposibleB(n, m) {
     return matriz;
 }
 
-
+/**
+ * Genera una lista de los posibles movimientos que pueden realizarse en el tablero.
+ * @param {number} n 
+ * @param {number} m 
+ * @returns Array<Array<number>>
+ */
 function generarPosiblesMovimientosB(tablero) {
     let posiblesMovimientos = [];
     let posCero = obtenerPosicionCeroB(tablero);
@@ -94,7 +128,12 @@ function generarPosiblesMovimientosB(tablero) {
     }
     return posiblesMovimientos;
 }
-    [[],]
+
+/**
+ * Retorna una lista con los todos los posibles tableros de acuerdo a los posibles movimientos.
+ * @param {Array<Array<number>>} tablero 
+ * @returns Array<Array<number>>
+ */
 function generarPosiblesTablerosB(tablero) {
     let matrizPadre=tablero[0][1];
     tablero=tablero[1];
@@ -130,12 +169,21 @@ function generarPosiblesTablerosB(tablero) {
     return posiblesTableros;
 }
 
+/**
+ * Agrega los posibles tableros al arbol.
+ * @param {Array<Array<number>>} posiblesTableros 
+ */
 function llenarArbolB(posiblesTableros) {
     for (let i = 0; i < posiblesTableros.length; i++) {
         arbol.push(posiblesTableros[i]);
     }
 }
 
+/**
+ * Si el estado de un tablero es igual al tablero final retorna true. De lo contrario retorna false.
+ * @param {Array<number>} estado 
+ * @returns {Boolean} 
+ */
 function esSolucionB(estado) {
     for (let i = 0; i < estado.length; i++) {
         for (let j = 0; j < estado[i].length; j++) {
@@ -147,25 +195,19 @@ function esSolucionB(estado) {
     return true;
 }
 
-function obtenerMovimientosB(indiceSolucion) {
-    while (indiceSolucion > 0) {
-        let padre = Math.floor((indiceSolucion-1)/4);
-        console.log(padre)
-        listaSolucion.push(arbol[padre]);
-        indiceSolucion = padre;
-    }
-    return listaSolucion;
-}
-
-// Backtracking
-// [[matrizPadre, matrizActual], matriz]
+/**
+ * Funcion que junto las demas definidas anteriormente, cumple con el proposito de solucionar el tablero
+ * y llevar registro de los pasos que se usaron para hacerlo. Usa recursividad.
+ * Estructura del nodo usado: [[matrizPadre, matrizActual], matriz]  
+ * @param {*} k 
+ * @returns {Array<Array<number>>}
+ */
 function backtracking(k){
     // Genera los posibles tableros de cada posible tablero generado en el paso anterior y los agrega al arbol
-    
     tableros = generarPosiblesTablerosB(arbol[k]);
     llenarArbolB(tableros);
     for (let i = 0; i < tableros.length; i++) {
-        if (esSolucionB(tableros[i][1])) { // Esto hay que cambiarlo
+        if (esSolucionB(tableros[i][1])) {
             let tam=arbol.length;
 
             let nodoActual=arbol[tam-1];
@@ -181,12 +223,7 @@ function backtracking(k){
             }
             rutaB[0]=[[0,convertirMatrizIdB(tableroFinal)],tableroFinal];
             return rutaB;
-            //indiceSolucion = (k*4)+i+1;
-            //listaSolucion.push(tableros[i]);
-            //return obtenerMovimientosB(indiceSolucion);
         }
     }
-    //return arbol;
     return backtracking(k+1);
 }
-

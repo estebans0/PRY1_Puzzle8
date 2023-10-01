@@ -1,8 +1,14 @@
+<!-- Autores:
+    - Brandon Calderon Cubero
+    - Esteban Solano Araya
+    - Gerardo Gomez Brenes
+    - Pamela Fernandez Mora
+-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <!-- <script src="app.js" charset="utf-8"></script> -->
         <script src="backtracking.js" charset="utf-8"></script>
         <script src="aestrella.js" charset="utf-8"></script>
         <link rel="stylesheet" href="style.css"></link>
@@ -30,7 +36,10 @@
                 14 : "507px", 15 : "507px", 16 : "513px", 17 : "517px", 18 : "509px", 19 : "518px", 20 : "502px"};
             var ruta_Backtracking = []
             var ruta_Aestrella = []
-
+            /**
+             * Crea matriz tablero segun variable tamano y lo guarda en la variable tablero
+             * @returns 
+             */
             function crearTablero(){
                 tablero.splice(0, tablero.length);
                 for (let f = 0; f < tamano; f++) {
@@ -42,7 +51,9 @@
                 tablero[tamano-1][tamano-1] = 0;
                 return tablero;
             }
-
+            /**
+             * Hace display del tablero 
+             */
             function mostrarTablero(){
                 let tablero = crearTablero();
                 for (let f = 0; f < tamano; f++) {
@@ -58,14 +69,18 @@
                     }
                 }
             }
-
+            /**
+             * Limpia todas las casillas correspondientes a tablero
+             */
             function limpiarTablero(){
                 let casillas = document.querySelectorAll(".casilla");
                 casillas.forEach(casilla => {
                     casilla.remove();
                 });
             }
-
+            /**
+             * Se encarga de cambiar las variables imagenSeleccionada y nombreImagen segun la imagen seleccionada
+             */
             document.getElementById("img1").onclick = function() {
                 imagenSeleccionada = document.querySelectorAll("#img1");
                 nombreImagen = "tec"
@@ -90,7 +105,9 @@
                 imagenSeleccionada = document.querySelectorAll("#img6");
                 nombreImagen = "pepe"
             };
-
+            /**
+             * Genera las piezas de la imagen para cada casilla de acuerdo a la imagen selccionada.
+             */          
             function obtenerPiezas() {
                 piezas = [];
                 tamano = document.getElementById("tamano").value;
@@ -115,7 +132,9 @@
                     }
                 }
             }
-
+            /**
+             * Muestra la imagen seleccionada en el tablero
+             */
             function mostrarImagen(){
                 let casillas = document.querySelectorAll(".casilla");
                 let tableroo = document.querySelectorAll(".tablero")[0];
@@ -137,41 +156,10 @@
                 });
             }
 
-            function actualizarHTMLtablero(){
-                let casillas = document.querySelectorAll(".casilla");
-                let tableroo = document.querySelectorAll(".tablero")[0];
-                let filas = 0;
-                let columnas = 0;
-                casillas.forEach(casilla => {
-                    casilla.innerHTML = tablero[filas][columnas].toString();
-                    columnas++;
-                    if (columnas == tamano) {
-                        filas++;
-                        columnas = 0;
-                    }
-                });
-            }
-
-            //contenedorImagenes.addEventListener("click", () => {
-            //    limpiarTablero();
-            //    agregarGris = true;
-            //    tamano = document.getElementById("tamano").value;
-            //    decremento = 0.3156 * (tamano-3);
-            //    casillaActual = Math.floor(Math.random() * (tamano*tamano))+1;
-            //    mostrarTablero();
-            //    mostrarImagen();
-            //    agregarGris = false;
-//
-            //    limpiarTablero();
-            //    tamano = document.getElementById("tamano").value;
-            //    decremento = 0.3156 * (tamano-3);
-            //    casillaActual = (tamano*tamano)-1;
-            //    fichaVacia = 0
-            //    mostrarTablero();
-            //    mezclarTablero();
-            //    obtenerTableroActual();
-            //});
-
+            /**
+             * Limpia el tablero y resetea las variables para generar un nuevo tablero
+             * de acuerdo a la imagen seleccionada y el tamaño
+             */
             botonTamano.addEventListener("click", () =>{
                 if (nombreImagen == "") {
                     alert("Seleccione una imagen");
@@ -189,7 +177,9 @@
                 agregarGris = false;
                 fichaVacia = 0
             });
-
+            /**
+             * Mezcla el tablero. Haciendo una cantidad de movimientos random.
+             */
             function mezclarTablero(){
                 var cantidadMovimientos = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
                 //console.log(cantidadMovimientos);
@@ -200,11 +190,11 @@
 
                 for (let i = 0; i < cantidadMovimientos; i++){
                     if (casillaActual % tamano == 1) {
-                        opciones_movimientos = ["arriba", "abajo", "izq"];
+                        opciones_movimientos = ["arriba", "abajo", "izq", "izq"];
                     } if (casillaActual % tamano == 0) {
-                        opciones_movimientos = ["arriba", "abajo", "der"];
+                        opciones_movimientos = ["arriba", "abajo", "der", "abajo"];
                     } if (casillaActual <= tamano) {
-                        opciones_movimientos = ["abajo", "izq", "der"];
+                        opciones_movimientos = ["abajo", "izq", "der", "der"];
                     } else {
                         opciones_movimientos = ["arriba", "abajo", "izq", "der"];
                     }
@@ -212,7 +202,9 @@
                     moverCasilla(movimiento_random);
                 }
             }
-
+            /**
+             * Obtiene el tablero actual de acuerdo al html y actualiza la variable tablero.
+             */
             function obtenerTableroActual(){
                 let casillas = document.querySelectorAll(".casilla");
                 let filas = 0;
@@ -232,7 +224,9 @@
                 });
                 return tablero;
             }
-
+            /**
+             * Obtiene la posicion del cero de acuerdo al tablero.
+             */
             function obtenerPosicionCero(tablero) {
                 for (let i = 0; i < tablero.length; i++) {
                     for (let j = 0; j < tablero[i].length; j++) {
@@ -242,7 +236,9 @@
                     }
                 }
             }
-
+            /**
+             * Obtiene el movimiento realizado de acuerdo a un tablero padre y uno hijo.
+             */
             function obtenerMovimiento(padre, hijo) {
                 let ceroPadre = obtenerPosicionCero(padre);
                 let ceroHijo = obtenerPosicionCero(hijo);
@@ -260,7 +256,9 @@
                     }
                 }
             }
-
+            /**
+             * Mezcla el tablero de acuerdo a la imagen seleccionada y el tamaño.
+             */
             botonMezclar.addEventListener("click", () => {
                 if (nombreImagen == "") {
                     alert("Seleccione una imagen");
@@ -279,8 +277,14 @@
                 mezclarTablero();
                 obtenerTableroActual();
             });
-
+            /**
+             * Realiza el backtracking y muestra la ruta en el tablero.
+             */
             botonBacktracking.addEventListener("click", () => {
+                if (nombreImagen == "") {
+                    alert("Seleccione una imagen");
+                    return;
+                }
                 tablero = obtenerTableroActual();
                 let tableroInicio = tablero;
                 ruta_Backtracking = [];
@@ -288,8 +292,14 @@
                 mostrarRuta(ruta_Backtracking)
                 console.log(ruta_Backtracking);
             });
-
+            /**
+             * Realiza el A* y muestra la ruta en el tablero.
+             */
             botonAestrella.addEventListener("click", () => {
+                if (nombreImagen == "") {
+                    alert("Seleccione una imagen");
+                    return;
+                }
                 tablero = obtenerTableroActual();
                 let tableroInicio = tablero;
                 ruta_Aestrella = [];
@@ -297,7 +307,9 @@
                 mostrarRuta(ruta_Aestrella)
                 console.log(ruta_Aestrella);
             });
-            
+            /**
+             * Muestra la ruta en el tablero.
+             */
             async function mostrarRuta(ruta) {
                 let padre = ruta[ruta.length-1][1];
                 let hijo = []
@@ -310,13 +322,17 @@
                     padre = tablero;
                 }
             }
-
+            /**
+             * Cambia la imagen de una casilla por la imagen de otra casilla.
+             */
             function changeImage(casillaModificar, actual){
                 actual.style.backgroundImage = casillaModificar.style.backgroundImage;
                 casillaModificar.style.backgroundImage = "";
                 casillaModificar.style.backgroundColor = "grey";
             }
-
+            /**
+             * Mueve la casilla segun la direccion indicada por el usuario.
+             */
             function moverCasilla(direccion){
                 let casilla = document.getElementById(casillaActual.toString());
                 let casillaArriba = document.getElementById((casillaActual-parseInt(tamano, 10)).toString());
@@ -356,7 +372,9 @@
 
                 }
             }
-
+            /**
+             * Obtiene la direccion del movimiento según el input del usuario.
+             */
             document.addEventListener("keyup", (evento) => {
                 if (evento.code == "ArrowUp") {
                     moverCasilla("arriba");
