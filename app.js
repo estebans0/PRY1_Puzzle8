@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonTamano = document.getElementById('generar');
     const contenedorImagenes = document.querySelector(".contenedor_imagenes");
     const botonMezclar = document.getElementById('mezclar');
-    const botonResolver = document.getElementById('resolver');
+    const botonBacktracking = document.getElementById('backtracking');
+    const botonAestrella = document.getElementById('a*');
     var imagenSeleccionada = document.querySelectorAll("#img1");
     var tablero = [];
     var tamano = 3;
@@ -136,18 +137,49 @@ document.addEventListener('DOMContentLoaded', () => {
         casillaActual = Math.floor(Math.random() * (tamano*tamano))+1;
         fichaVacia = casillaActual
         mostrarTablero();
+        obtenerPiezas();
         mostrarImagen();
     });
 
     function mezclarTablero(){
-        
+        var cantidadMovimientos = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+        //console.log(cantidadMovimientos);
+
+        opciones_movimientos = ["arriba", "abajo", "izq", "der"];
+
+        for (let i = 0; i < cantidadMovimientos; i++){
+            movimiento_random = opciones_movimientos[Math.floor(Math.random() * (4))];
+            moverCasilla(movimiento_random);
+        }
+    }
+
+    function obtenerTableroActual(){
+        let casillas = document.querySelectorAll(".casilla");
+        let filas = 0;
+        let columnas = 0;
+        let num = 0;
+        casillas.forEach(casilla => {
+            num = parseInt(casilla.innerHTML, 10);
+            tablero[filas][columnas] = num;
+            columnas++;
+            if (columnas == tamano) {
+                filas++;
+                columnas = 0;
+            }
+        });
+        return tablero;
     }
 
     botonMezclar.addEventListener("click", () => {
         mezclarTablero();
     });
 
-    botonResolver.addEventListener("click", () => {
+    botonBacktracking.addEventListener("click", () => {
+        //obtenerTableroActual();
+        //console.log(tablero);
+    });
+
+    botonAestrella.addEventListener("click", () => {
         
     });
 
@@ -163,34 +195,36 @@ document.addEventListener('DOMContentLoaded', () => {
         let casillaAbajo = document.getElementById((casillaActual+parseInt(tamano, 10)).toString());
         let casillaIzq = document.getElementById((casillaActual-1).toString());
         let casillaDer = document.getElementById((casillaActual+1).toString());
+        let idActual = casilla.id;
 
         if (direccion == "arriba" && casillaArriba != null) {
-            //casilla.innerHTML = casillaArriba.innerHTML;
-            //casillaArriba.innerHTML = fichaVacia.toString();
-
+            casilla.innerHTML = casillaArriba.innerHTML;
+            casillaArriba.innerHTML = fichaVacia.toString();
             changeImage(casillaArriba, casilla);
             casillaActual -= parseInt(tamano, 10);
             
         } else if (direccion == "abajo" && casillaAbajo != null) {
-            //casilla.innerHTML = casillaAbajo.innerHTML;
-            //casillaAbajo.innerHTML = fichaVacia.toString();
-
+            casilla.innerHTML = casillaAbajo.innerHTML;
+            casillaAbajo.innerHTML = fichaVacia.toString();
             changeImage(casillaAbajo, casilla);
             casillaActual += parseInt(tamano, 10);
 
         } else if (direccion == "izq" && casillaIzq != null) {
-            //casilla.innerHTML = casillaIzq.innerHTML;
-            //casillaIzq.innerHTML = fichaVacia.toString();
-            //mostrarImagen();
-            changeImage(casillaIzq, casilla);
-            casillaActual -= 1;
+            if (idActual % tamano != 1) {
+                casilla.innerHTML = casillaIzq.innerHTML;
+                casillaIzq.innerHTML = fichaVacia.toString();
+                changeImage(casillaIzq, casilla);
+                casillaActual -= 1;
+            }
             
         } else if (direccion == "der" && casillaDer != null) {
-            //casilla.innerHTML = casillaDer.innerHTML;
-            //casillaDer.innerHTML = fichaVacia.toString();
-            //mostrarImagen();
-            changeImage(casillaDer, casilla);
-            casillaActual += 1;
+            if (idActual % tamano != 0) {
+                casilla.innerHTML = casillaDer.innerHTML;
+                casillaDer.innerHTML = fichaVacia.toString();
+                changeImage(casillaDer, casilla);
+                casillaActual += 1;
+            }
+            
         } else {
 
         }

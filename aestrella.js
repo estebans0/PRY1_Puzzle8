@@ -1,16 +1,32 @@
-var inicio = [
-    [2,3,6],
-    [1,0,4],
-    [7,5,8]];
-var tablero_solucion = [
-    [1,2,3],
-    [4,5,6],
-    [7,8,0]];
+var inicio = [];
+var tablero_solucion = [];
 
 var cerrados = [];
 var abiertos = [];
-var tamanoMatriz = inicio[0].length - 1;
+var tamanoMatriz = 0;
+var ruta = [];
 
+function a_starMain(tableroInicial, tamano) {
+    ruta = [];
+    cerrados = [];
+    abiertos = [];
+    inicio = tableroInicial.map((arr) => arr.slice());
+    tablero_solucion = crearTableroSolucion([], tamano);
+    tamanoMatriz = inicio[0].length - 1;
+    a_star();
+    return ruta;
+}
+
+function crearTableroSolucion(tablero, tamano) {
+    for (let f = 0; f < tamano; f++) {
+        tablero[f] = [];
+        for (let c = 0; c < tamano; c++) {
+            tablero[f][c] = f*tamano + c + 1;
+        }
+    }
+    tablero[tamano-1][tamano-1] = 0;
+    return tablero;
+}
 
 function obtenerPosicionCero(tablero) {
     for (let i = 0; i < tablero.length; i++) {
@@ -139,7 +155,6 @@ function sortNodos(hijos){
 
 // ESTRUCTURA DEL NODO 
 // [[matrizPadre, matrizActual], matriz, f, nivel]
-
 function a_star(){
     let raiz = [[0, convertirMatrizId(inicio)], inicio, f(inicio, 0), 0];
     abiertos.push(raiz);
@@ -160,7 +175,7 @@ function a_star(){
         abiertos = sortNodos(abiertos);
     }
     let tam = cerrados.length;
-    let ruta = [];
+    let movimiento = ""
 
     let nodoActual = cerrados[tam - 1];
     let idSig = nodoActual[0][0];
@@ -174,7 +189,5 @@ function a_star(){
             idSig = nodoActual[0][0];
         }
     }
-    return ruta;
+    return;
 }
-
-console.log(a_star())
